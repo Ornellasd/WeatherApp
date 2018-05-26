@@ -1,4 +1,4 @@
-function ajax(keyword) {
+var ajax = function(keyword) {
   $.ajax({
     type: "GET",
     url: keyword,
@@ -23,7 +23,7 @@ function showWeather(callback) {
 
   $("#temperature").text("Temperature:" + " " + fahrenheit);
   $("#humidity").text("Humidty:" + " " + humidity + "%");
-  $("#icon-image").append("<img src='" + icon + "' />");
+  $("#icon-image").attr("src", icon);
   $("#location").text(location);
   for (var i = 0; i < condition.length; i++) {
     var conditionFormat = condition[i][0].toUpperCase() + condition[i].slice(1, condition[i].length);
@@ -45,6 +45,7 @@ $(document).ready(function() {
       var lon = "lon=" + Math.round(position.coords.longitude * 100) / 100;
       var keyword = "https://fcc-weather-api.glitch.me/api/current?" + lat + "&" + lon;
       ajax(keyword);
+      setInterval(ajax, 180000, keyword);
     });
   } else {
     alert("Geolocation is not supported by this browser.");
